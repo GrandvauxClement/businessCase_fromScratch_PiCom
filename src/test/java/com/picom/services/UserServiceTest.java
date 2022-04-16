@@ -4,6 +4,7 @@ import com.picom.exceptions.DbUniqueFieldThisValueExist;
 import com.picom.models.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -24,6 +25,7 @@ public class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Test register work")
     public void testRegisterWork() throws DbUniqueFieldThisValueExist {
         List<User> users = userService.findAll();
         int nbUsers = users.size();
@@ -34,11 +36,14 @@ public class UserServiceTest {
 
         users = userService.findAll();
         assertThat(users, is(notNullValue()));
+        //Check if he has user role
+        Assertions.assertEquals("User", userCreate.getRole().getName());
         assertThat(nbUsers + 1, is(equalTo(users.size())));
         Assertions.assertEquals(users.get(users.size()-1).getEmail(),userCreate.getEmail());
     }
 
     @Test
+    @DisplayName("Test register with email already exist")
    void testRegisterWithEmailAlreadyExist() throws DbUniqueFieldThisValueExist {
 
         Assertions.assertThrows(DbUniqueFieldThisValueExist.class, () -> {
@@ -49,6 +54,7 @@ public class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Test register with num siret already exist")
     void testRegisterWithNumSiretAlreadyExist() throws DbUniqueFieldThisValueExist {
 
         Assertions.assertThrows(DbUniqueFieldThisValueExist.class, () -> {
@@ -59,14 +65,16 @@ public class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Test find all user")
     public void testFindAll() {
         List<User> userList = userService.findAll();
-        Assertions.assertEquals(1, userList.size());
-        Assertions.assertEquals("Grandvaux", userList.get(0).getLastName());
-        Assertions.assertEquals("Lons-le-saunier", userList.get(0).getCity().getName());
+        Assertions.assertEquals(2, userList.size());
+        Assertions.assertEquals("Grandvaux", userList.get(userList.size()-1).getLastName());
+        Assertions.assertEquals("Lons-le-saunier", userList.get(userList.size()-1).getCity().getName());
     }
 
     @Test
+    @DisplayName("Test delete user work")
     public void testDeleteUser(){
         List<User> userList = userService.findAll();
 
@@ -75,6 +83,7 @@ public class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Test delete user with inexist id")
     public void testDeleteUserWithInexistId(){
 
         boolean response = userService.deleteById(30L);

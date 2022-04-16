@@ -3,7 +3,6 @@ package com.picom.dao;
 import com.picom.db.DBConnect;
 import com.picom.models.City;
 import com.picom.models.Country;
-import com.picom.models.User;
 import com.picom.models.db.TableName;
 
 import java.sql.PreparedStatement;

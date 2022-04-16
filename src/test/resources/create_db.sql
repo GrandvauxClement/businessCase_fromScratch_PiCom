@@ -17,6 +17,11 @@ CREATE TABLE city
     FOREIGN KEY (id_country) REFERENCES country(id)
 );
 
+CREATE TABLE role
+(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name varchar(10)
+);
 
 CREATE TABLE user
 (
@@ -32,7 +37,9 @@ CREATE TABLE user
     road_name varchar(250),
     postal_code varchar(10),
     id_city INT,
-    FOREIGN KEY (id_city) REFERENCES city(id)
+    id_role INT,
+    FOREIGN KEY (id_city) REFERENCES city(id),
+    FOREIGN KEY (id_role) REFERENCES role(id)
 );
 
 INSERT INTO country (name, phone_indicative) VALUES
@@ -42,3 +49,10 @@ INSERT INTO country (name, phone_indicative) VALUES
 INSERT INTO city (name, id_country) VALUES
       ( 'Lyon', 1 ),
       ('Paris', 2);
+
+INSERT INTO role (name) VALUES
+   ( 'Admin' ),
+   ('User');
+
+INSERT INTO user (last_name, first_name, email, password, phone_number, is_verified, num_siret, company_name, road_name, postal_code, id_city, id_role)
+VALUES ( 'admin', 'admin', 'admin@admin.com', 'Admin123', '66666666', true, '14242535652521', 'admin', 'rue admin', '69000', 1, 1);

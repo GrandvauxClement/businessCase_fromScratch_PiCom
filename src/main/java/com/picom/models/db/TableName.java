@@ -3,7 +3,8 @@ package com.picom.models.db;
 public enum TableName {
     USER("user"),
     CITY("city"),
-    COUNTRY("country");
+    COUNTRY("country"),
+    ROLE("role");
 
     private final String name;
 

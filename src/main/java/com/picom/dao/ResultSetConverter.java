@@ -2,6 +2,7 @@ package com.picom.dao;
 
 import com.picom.models.City;
 import com.picom.models.Country;
+import com.picom.models.Role;
 import com.picom.models.User;
 import com.picom.models.db.TableName;
 
@@ -27,12 +28,14 @@ public class ResultSetConverter {
         Long idCountry = resultSet.getLong("city.id_country");
         String countryName = resultSet.getString("country.name");
         String phoneIndicative = resultSet.getString("country.phone_indicative");
-
+        Long idRole = resultSet.getLong("id_role");
+        String roleName = resultSet.getString("role.name");
         Country country = new Country(idCountry, countryName, phoneIndicative);
         City citySelected = new City(idCity, cityName, country);
+        Role role = new Role(idRole, roleName);
 
         return new User(id, lastname, firstname, email, password, phoneNumber,
-                isVerified, numSiret,companyName, roadName, postalCode, citySelected);
+                isVerified, numSiret,companyName, roadName, postalCode, citySelected, role);
     }
 
     public static Country convertToCountry(ResultSet resultSet) throws SQLException {
@@ -54,6 +57,13 @@ public class ResultSetConverter {
         return new City(id, name, country);
     }
 
+    public static Role convertToRole(ResultSet resultSet) throws SQLException {
+        Long id = resultSet.getLong("id");
+        String name = resultSet.getString("name");
+
+        return new Role(id, name);
+    }
+
     static <T> T getModelFromResult(TableName tableName, ResultSet resultSet) throws SQLException{
 
         if (tableName.equals(TableName.USER)){
@@ -62,6 +72,8 @@ public class ResultSetConverter {
             return (T) convertToCountry(resultSet);
         } else if (tableName.equals(TableName.CITY)){
             return (T) convertToCity(resultSet);
+        } else if (tableName.equals(TableName.ROLE)) {
+            return (T) convertToRole(resultSet);
         }
 
         return null;

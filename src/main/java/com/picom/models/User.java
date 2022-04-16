@@ -26,6 +26,9 @@ public class User {
 
     private City city;
 
+    private Role role;
+
+    // constructor when register without id & default role to user
     public User(String lastName, String firstName, String email, String password, String phoneNumber, String numSiret,
                 String companyName, String roadName, String postalCode, City city) {
         this.lastName = lastName;
@@ -38,11 +41,13 @@ public class User {
         this.roadName = roadName;
         this.postalCode = postalCode;
         this.city = city;
+        this.role = new Role(2L, "user");
     }
 
+    // constructor when get user to Db with all informations
     public User(Long id, String lastName, String firstName, String email, String password, String phoneNumber,
                 boolean isVerified, String numSiret, String companyName, String roadName, String postalCode,
-                City city) {
+                City city, Role role) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -55,6 +60,7 @@ public class User {
         this.roadName = roadName;
         this.postalCode = postalCode;
         this.city = city;
+        this.role = role;
     }
 
     public Long getId() {
@@ -153,4 +159,11 @@ public class User {
         this.city = city;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }
