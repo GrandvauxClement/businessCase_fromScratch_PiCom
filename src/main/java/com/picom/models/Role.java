@@ -1,11 +1,14 @@
 package com.picom.models;
 
-public class Role {
+import com.picom.models.db.TableName;
+
+public class Role extends AbstractEntity{
     private Long id;
 
     private String name;
 
     public Role(Long id, String name) {
+        super(TableName.ROLE);
         this.id = id;
         this.name = name;
     }

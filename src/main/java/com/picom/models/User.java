@@ -1,6 +1,8 @@
 package com.picom.models;
 
-public class User {
+import com.picom.models.db.TableName;
+
+public class User extends AbstractEntity{
 
     private Long id;
 
@@ -31,6 +33,7 @@ public class User {
     // constructor when register without id & default role to user
     public User(String lastName, String firstName, String email, String password, String phoneNumber, String numSiret,
                 String companyName, String roadName, String postalCode, City city) {
+        super(TableName.USER);
         this.lastName = lastName;
         this.firstName = firstName;
         this.email = email;
@@ -48,6 +51,7 @@ public class User {
     public User(Long id, String lastName, String firstName, String email, String password, String phoneNumber,
                 boolean isVerified, String numSiret, String companyName, String roadName, String postalCode,
                 City city, Role role) {
+        super(TableName.USER);
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;

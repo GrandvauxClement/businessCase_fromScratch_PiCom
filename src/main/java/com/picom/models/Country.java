@@ -1,6 +1,8 @@
 package com.picom.models;
 
-public class Country {
+import com.picom.models.db.TableName;
+
+public class Country extends AbstractEntity{
 
     private Long id;
 
@@ -9,6 +11,7 @@ public class Country {
     private String phoneIndicative;
 
     public Country(Long id, String name, String phoneIndicative) {
+        super(TableName.COUNTRY);
         this.id = id;
         this.name = name;
         this.phoneIndicative = phoneIndicative;

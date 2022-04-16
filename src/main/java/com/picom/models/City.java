@@ -1,6 +1,8 @@
 package com.picom.models;
 
-public class City {
+import com.picom.models.db.TableName;
+
+public class City extends AbstractEntity{
 
     private Long id;
 
@@ -9,6 +11,7 @@ public class City {
     private Country country;
 
     public City(Long id, String name, Country country) {
+        super(TableName.CITY);
         this.id = id;
         this.name = name;
         this.country = country;
