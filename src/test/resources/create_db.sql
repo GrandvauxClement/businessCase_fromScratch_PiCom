@@ -42,6 +42,62 @@ CREATE TABLE user
     FOREIGN KEY (id_role) REFERENCES role(id)
 );
 
+CREATE TABLE ad
+(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    image VARCHAR(250),
+    text TEXT,
+    created_at DATETIME,
+    start_date DATE,
+    num_days_of_diffusion SMALLINT,
+    id_user INT,
+    FOREIGN KEY (id_user) REFERENCES user(id)
+);
+
+CREATE TABLE time_interval
+(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    time_slot DOUBLE,
+    nbre_ad SMALLINT,
+    coef_multi FLOAT
+);
+
+CREATE TABLE ad_time_interval
+(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    id_ad INT,
+    id_time_interval INT,
+    FOREIGN KEY (id_ad) REFERENCES ad(id),
+    FOREIGN KEY (id_time_interval) REFERENCES time_interval(id)
+);
+
+CREATE TABLE area
+(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50),
+    price FLOAT
+);
+
+CREATE TABLE ad_area
+(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    id_ad INT,
+    id_time_interval INT,
+    FOREIGN KEY (id_ad) REFERENCES ad(id),
+    FOREIGN KEY (id_time_interval) REFERENCES time_interval(id)
+);
+
+CREATE TABLE stop
+(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50),
+    latitude FLOAT,
+    longitude FLOAT,
+    id_area INT,
+    adress_ip VARCHAR(15) UNIQUE,
+    FOREIGN KEY (id_area) REFERENCES area(id)
+);
+
 INSERT INTO country (name, phone_indicative) VALUES
        ( 'France', '+33' ),
        ('Angleterre', '+42');

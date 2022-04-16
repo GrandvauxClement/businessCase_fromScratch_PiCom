@@ -4,7 +4,11 @@ public enum TableName {
     USER("user"),
     CITY("city"),
     COUNTRY("country"),
-    ROLE("role");
+    ROLE("role"),
+    AD("ad"),
+    TIME_INTERVAL("time_interval"),
+    AREA("area"),
+    STOP("stop");
 
     private final String name;
 
