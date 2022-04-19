@@ -29,7 +29,7 @@ public class ResultSetConverter {
         String countryName = resultSet.getString("country.name");
         String phoneIndicative = resultSet.getString("country.phone_indicative");
         Long idRole = resultSet.getLong("id_role");
-        String roleName = resultSet.getString("role.name");
+        String roleName = resultSet.getString("roles.name");
         Country country = new Country(idCountry, countryName, phoneIndicative);
         City citySelected = new City(idCity, cityName, country);
         Role role = new Role(idRole, roleName);
@@ -72,7 +72,7 @@ public class ResultSetConverter {
             return (T) convertToCountry(resultSet);
         } else if (tableName.equals(TableName.CITY)){
             return (T) convertToCity(resultSet);
-        } else if (tableName.equals(TableName.ROLE)) {
+        } else if (tableName.equals(TableName.ROLES)) {
             return (T) convertToRole(resultSet);
         }
 

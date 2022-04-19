@@ -8,7 +8,7 @@ public class Role extends AbstractEntity{
     private String name;
 
     public Role(Long id, String name) {
-        super(TableName.ROLE);
+        super(TableName.ROLES);
         this.id = id;
         this.name = name;
     }

@@ -66,10 +66,11 @@ public class UserDAO extends AbstractGenericDAO<User> {
         ResultSet rs = null;
         try{
             ps = this.connection.prepareStatement(
-                    "SELECT * FROM user WHERE id= ? " +
+                    "SELECT * FROM user " +
                     "INNER JOIN city ON city.id = user.id_city " +
                     "INNER JOIN country ON country.id = city.id_country " +
-                    "INNER JOIN role ON role.id = user.id_role");
+                    "INNER JOIN roles ON roles.id = user.id_role " +
+                    "WHERE user.id= ? ");
             ps.setLong(1, id);
 
             rs = ps.executeQuery();
@@ -93,7 +94,7 @@ public class UserDAO extends AbstractGenericDAO<User> {
                     "SELECT * FROM user " +
                     "INNER JOIN city ON city.id = user.id_city " +
                     "INNER JOIN country ON country.id = city.id_country " +
-                    "INNER JOIN role ON role.id = user.id_role");
+                    "INNER JOIN roles ON roles.id = user.id_role");
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add((User) ResultSetConverter.getModelFromResult(tableName, rs));
@@ -104,5 +105,30 @@ public class UserDAO extends AbstractGenericDAO<User> {
         return list;
     }
 
+    public User login(String email, String password) throws SQLException {
+        User currentPojo = null;
+        Long idUser = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try{
+            ps = this.connection.prepareStatement(
+                    "SELECT * FROM user " +
+                        "INNER JOIN city ON city.id = user.id_city " +
+                        "INNER JOIN country ON country.id = city.id_country " +
+                        "INNER JOIN roles ON roles.id = user.id_role " +
+                        "WHERE email= ? AND password= ? ");
+            ps.setString(1, email);
+            ps.setString(2, password);
+
+            rs = ps.executeQuery();
+            if (rs.next()){
+                currentPojo = ResultSetConverter.getModelFromResult(tableName, rs);
+                idUser = rs.getLong("id");
+            }
+        } finally {
+            DBConnect.closeAll(ps, rs);
+        }
+        return currentPojo;
+    }
 
 }

@@ -71,10 +71,20 @@ public class UserService {
 
     }
 
+    public User login(String email, String password) {
+        try {
+            return this.userDAO.login(email, password);
+
+        } catch (SQLException e){
+            return null;
+        }
+    }
+
     public User findById(Long id){
         try{
             return this.userDAO.findById(id);
         } catch (SQLException e) {
+            e.printStackTrace();
             return null;
         }
     }

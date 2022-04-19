@@ -4,7 +4,7 @@ public enum TableName {
     USER("user"),
     CITY("city"),
     COUNTRY("country"),
-    ROLE("role"),
+    ROLES("roles"),
     AD("ad"),
     TIME_INTERVAL("time_interval"),
     AREA("area"),

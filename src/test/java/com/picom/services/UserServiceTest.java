@@ -74,6 +74,15 @@ public class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Test find user by his id")
+    public void testFindById(){
+        List<User> userList = userService.findAll();
+        Long testid = userList.get(1).getId();
+        User user = userService.findById(userList.get(1).getId());
+        Assertions.assertEquals("Grandvaux", user.getLastName());
+    }
+
+    @Test
     @DisplayName("Test delete user work")
     public void testDeleteUser(){
         List<User> userList = userService.findAll();
@@ -88,6 +97,21 @@ public class UserServiceTest {
 
         boolean response = userService.deleteById(30L);
         Assertions.assertFalse(response);
+    }
+
+    @Test
+    @DisplayName("Test login work")
+    public void testLoginWork(){
+        User user = userService.login("clement.grandvaux@hotmail.com", "Admin123");
+        Assertions.assertEquals("Grandvaux", user.getLastName());
+        Assertions.assertEquals("Clément", user.getFirstName());
+    }
+
+    @Test
+    @DisplayName("Test login not work")
+    public void testLoginDoesntWork() {
+        User user = userService.login("test@dontwork.fr", "Password123");
+        Assertions.assertNull(user);
     }
 
 }
