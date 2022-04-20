@@ -19,9 +19,9 @@ public class AdService {
     }
 
     public Ad create(String image, String text, Date startDate, int numDaysOfDiffusion, Long userId,
-                     List<Area> areaList, List<TimeInterval> timeIntervalList) {
+                     List<Area> areaList) {
         try {
-           return this.adDAO.createAd(image,text, startDate, numDaysOfDiffusion, userId, areaList, timeIntervalList);
+           return this.adDAO.createAd(image,text, startDate, numDaysOfDiffusion, userId, areaList);
         } catch (SQLException e){
             e.printStackTrace();
             return null;
@@ -43,4 +43,6 @@ public class AdService {
             return null;
         }
     }
+
+
 }

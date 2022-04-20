@@ -17,7 +17,7 @@ public class TimeIntervalDAO extends AbstractGenericDAO<TimeInterval>{
         super(TableName.TIME_INTERVAL);
     }
 
-    public List<TimeInterval> findTimeIntervalByIdAd(Long idAd) throws SQLException {
+    public List<TimeInterval> findTimeIntervalByIdAdArea(Long idAdArea) throws SQLException {
         List<TimeInterval> list = new LinkedList<>();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -26,8 +26,8 @@ public class TimeIntervalDAO extends AbstractGenericDAO<TimeInterval>{
             ps = this.connection.prepareStatement(
                     "SELECT time_interval.* FROM time_interval " +
                         "INNER JOIN ad_time_interval ON ad_time_interval.id_time_interval = time_interval.id " +
-                        "WHERE ad_time_interval.id_ad = ?");
-            ps.setLong(1, idAd);
+                        "WHERE ad_time_interval.id_ad_area = ?");
+            ps.setLong(1, idAdArea);
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add((TimeInterval) ResultSetConverter.getModelFromResult(tableName, rs));

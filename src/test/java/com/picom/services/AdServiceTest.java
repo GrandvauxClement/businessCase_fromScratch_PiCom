@@ -44,13 +44,14 @@ public class AdServiceTest {
         timeIntervalList.add(allTimeIntervalList.get(5));
         timeIntervalList.add(allTimeIntervalList.get(8));
         Area area = areaDAO.findById(1L);
+        area.setTimeIntervalList(timeIntervalList);
         List<Area> areaList = new ArrayList<>();
         areaList.add(area);
 
         User user = userService.findById(2L);
 
         Ad ad = this.adService.create("lala.png", "Lorem ipsum super texte qui va servir de description", new Date(),
-                15, 1L,  areaList, timeIntervalList);
+                15, 1L,  areaList);
 
 
         Ad adWithId = adService.findById(2L);
@@ -65,6 +66,13 @@ public class AdServiceTest {
     public void findAll() {
         List<Ad> adList = adService.findAll();
         Assertions.assertEquals("image.png", adList.get(0).getImage());
+    }
+
+    @Test
+    @DisplayName("Test calculate total price of an ad")
+    public void getTotalPriceOfOneAd() {
+        Ad ad = adService.findById(1L);
+        Assertions.assertEquals(370.44F,ad.getTotalPriceOfAd());
     }
 
 }

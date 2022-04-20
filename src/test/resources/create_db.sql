@@ -62,15 +62,6 @@ CREATE TABLE time_interval
     coef_multi FLOAT
 );
 
-CREATE TABLE ad_time_interval
-(
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    id_ad INT,
-    id_time_interval INT,
-    FOREIGN KEY (id_ad) REFERENCES ad(id),
-    FOREIGN KEY (id_time_interval) REFERENCES time_interval(id)
-);
-
 CREATE TABLE area
 (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -86,6 +77,16 @@ CREATE TABLE ad_area
     FOREIGN KEY (id_ad) REFERENCES ad(id),
     FOREIGN KEY (id_area) REFERENCES area(id)
 );
+
+CREATE TABLE ad_time_interval
+(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    id_ad_area INT,
+    id_time_interval INT,
+    FOREIGN KEY (id_ad_area) REFERENCES ad_area(id),
+    FOREIGN KEY (id_time_interval) REFERENCES time_interval(id)
+);
+
 
 CREATE TABLE stop
 (
@@ -149,10 +150,10 @@ INSERT INTO ad_area(id_ad, id_area) VALUES
    (1, 2),
    (2, 1);
 
-INSERT INTO ad_time_interval(id_ad, id_time_interval) VALUES
+INSERT INTO ad_time_interval(id_ad_area, id_time_interval) VALUES
    (1, 2),
    (1, 4),
-   (1, 7),
+   (2, 7),
    (2, 1),
-   (2, 5),
-   (2, 6);
+   (3, 5),
+   (3, 6);

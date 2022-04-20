@@ -19,7 +19,7 @@ public class AdDAO extends AbstractGenericDAO<Ad>{
     }
 
     public Ad createAd(String image, String text, Date startDate, int numDaysOfDiffusion, Long userId,
-                       List<Area> areaList, List<TimeInterval> timeIntervalList) throws SQLException {
+                       List<Area> areaList) throws SQLException {
 
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -40,59 +40,40 @@ public class AdDAO extends AbstractGenericDAO<Ad>{
             ps.executeUpdate();
 
             rs = ps.getGeneratedKeys();
-            System.out.println(ps.getWarnings());
 
             if (rs.next()) {
-                // Add Interval Time relation with ad
-                StringBuilder queryForTimeInterval = new StringBuilder("INSERT INTO ad_time_interval (id_ad, id_time_interval) VALUES ");
                 Long idAdCreate = rs.getLong(1);
-                int counter = 0;
-                for (TimeInterval time: timeIntervalList){
-                   queryForTimeInterval.append("(").append(idAdCreate).append(", ").append(time.getId()).append(")");
-                   counter ++;
-                   if (counter < timeIntervalList.size()){
-                       queryForTimeInterval.append(",");
-                   }
-                }
-
-                queryForTimeInterval.append(";");
-
-                PreparedStatement psInterval = this.connection.prepareStatement(String.valueOf(queryForTimeInterval), Statement.RETURN_GENERATED_KEYS);
-                psInterval.executeUpdate();
-                ResultSet rsInterval = psInterval.getGeneratedKeys();
-
-               /* int counter = 0;
-                while (rsInterval.next()){
-                    timeIntervalList.get(counter).setId(rs.getLong("1"));
-                    counter ++;
-                }*/
-
                 // Add Area relation with ad
 
-                StringBuilder queryForArea = new StringBuilder("INSERT INTO ad_area (id_ad, id_area) VALUES ");
-                counter = 0;
                 for (Area area: areaList){
-                    queryForArea.append("(").append(idAdCreate).append(", ").append(area.getId()).append(")");
-                    counter ++;
-                    if (counter < areaList.size()){
-                        queryForArea.append(",");
+
+                    // Add area to ad that we just created
+                    String queryForArea = "INSERT INTO ad_area (id_ad, id_area) VALUES (?,?)";
+                    PreparedStatement psArea = this.connection.prepareStatement(queryForArea, Statement.RETURN_GENERATED_KEYS);
+
+                    psArea.setLong(1,idAdCreate);
+                    psArea.setLong(2, area.getId());
+
+                    psArea.executeUpdate();
+                    ResultSet rsArea = psArea.getGeneratedKeys();
+                    if (rsArea.next()){
+                        // Then we area add to ad, we add all time interval selected for this area
+                        Long idAdAreaCreate = rsArea.getLong(1);
+                        for (TimeInterval timeInterval : area.getTimeIntervalList()){
+
+                            String queryForTimeInterval = "INSERT INTO ad_time_interval (id_ad_area, id_time_interval) VALUES (?,?)";
+                            PreparedStatement psTimeInterval = this.connection.prepareStatement(queryForTimeInterval, Statement.RETURN_GENERATED_KEYS);
+
+                            psTimeInterval.setLong(1,idAdAreaCreate);
+                            psTimeInterval.setLong(2, timeInterval.getId());
+                            psTimeInterval.executeUpdate();
+                        }
                     }
                 }
 
-                queryForArea.append(";");
-
-                PreparedStatement psArea = this.connection.prepareStatement(String.valueOf(queryForArea), Statement.RETURN_GENERATED_KEYS);
-                psArea.executeUpdate();
-                ResultSet rsArea = psArea.getGeneratedKeys();
-
-               /*  counter = 0;
-                while (rsArea.next()){
-                    timeIntervalList.get(counter).setId(rs.getLong("1"));
-                    counter ++;
-                }*/
                 UserDAO userDAO = new UserDAO();
                 User user = userDAO.findById(userId);
-                ad = new Ad(idAdCreate, image, text, createdAt, startDate, numDaysOfDiffusion, user, timeIntervalList, areaList);
+                ad = new Ad(idAdCreate, image, text, createdAt, startDate, numDaysOfDiffusion, user, areaList);
             }
         } finally {
             DBConnect.closeAll(ps, rs);

@@ -21,12 +21,10 @@ public class Ad extends AbstractEntity{
 
     private User user;
 
-    private List<TimeInterval> timeIntervalList;
-
     private List<Area> areaList;
 
     public Ad(Long id, String image, String text, Date createdAt, Date startDate, Integer numDaysOfDiffusion, User user,
-              List<TimeInterval> timeIntervalList, List<Area> areaList) {
+              List<Area> areaList) {
         super(TableName.AD);
         this.id = id;
         this.image = image;
@@ -35,7 +33,6 @@ public class Ad extends AbstractEntity{
         this.startDate = startDate;
         this.numDaysOfDiffusion = numDaysOfDiffusion;
         this.user = user;
-        this.timeIntervalList = timeIntervalList;
         this.areaList = areaList;
     }
 
@@ -95,19 +92,19 @@ public class Ad extends AbstractEntity{
         this.user = user;
     }
 
-    public List<TimeInterval> getTimeIntervalList() {
-        return timeIntervalList;
-    }
-
-    public void setTimeIntervalList(List<TimeInterval> timeIntervalList) {
-        this.timeIntervalList = timeIntervalList;
-    }
-
     public List<Area> getAreaList() {
         return areaList;
     }
 
     public void setAreaList(List<Area> areaList) {
         this.areaList = areaList;
+    }
+
+    public Float getTotalPriceOfAd(){
+        Float stockValue = 0F;
+        for (Area area : areaList){
+            stockValue += area.getTotalPriceOfAllTimeIntervalSelected();
+        }
+        return stockValue;
     }
 }

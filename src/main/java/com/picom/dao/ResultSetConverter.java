@@ -6,6 +6,7 @@ import com.picom.models.db.TableName;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ResultSetConverter {
@@ -64,11 +65,27 @@ public class ResultSetConverter {
         return new TimeInterval(id, timeSlot, coefMulti);
     }
 
+    public static Area convertToAreaInsideAd(ResultSet resultSet) throws SQLException {
+        Long id = resultSet.getLong("id");
+        String name = resultSet.getString("name");
+        Float price = resultSet.getFloat("price");
+
+        TimeIntervalDAO timeIntervalDAO = new TimeIntervalDAO();
+        List<TimeInterval> timeIntervalList = null;
+
+        timeIntervalList = timeIntervalDAO.findTimeIntervalByIdAdArea(resultSet.getLong("ad_area.id"));
+
+        return new Area(id, name, price, timeIntervalList);
+    }
+
     public static Area convertToArea(ResultSet resultSet) throws SQLException {
         Long id = resultSet.getLong("id");
         String name = resultSet.getString("name");
         Float price = resultSet.getFloat("price");
-        return new Area(id, name, price);
+
+        List<TimeInterval> timeIntervalList = new ArrayList<>();
+
+        return new Area(id, name, price, timeIntervalList);
     }
 
     public static Stop convertToStop(ResultSet resultSet) throws SQLException {
@@ -91,13 +108,10 @@ public class ResultSetConverter {
         UserDAO userDAO = new UserDAO();
         User user = userDAO.findById(resultSet.getLong("id_user"));
 
-        TimeIntervalDAO timeIntervalDAO = new TimeIntervalDAO();
-        List<TimeInterval> timeIntervalList = timeIntervalDAO.findTimeIntervalByIdAd(id);
-
         AreaDAO areaDAO = new AreaDAO();
-        List<Area> areaList = areaDAO.findAreaByIdAd(id);
+        List<Area> areaList = areaDAO.findAreaAndTimeIntervalByIdAd(id);
 
-        return new Ad(id, image, text, createdAt, startDate, numDaysOfDiffusion, user, timeIntervalList, areaList);
+        return new Ad(id, image, text, createdAt, startDate, numDaysOfDiffusion, user, areaList);
     }
 
     public static Role convertToRole(ResultSet resultSet) throws SQLException {
@@ -134,6 +148,14 @@ public class ResultSetConverter {
             return (T) convertToAd(resultSet);
         }
 
+        return null;
+    }
+
+    static <T> T getSpecialModelFromResult(String string, ResultSet resultSet) throws SQLException{
+
+        if (string.equals("AreaInsideAd")){
+            return (T) convertToAreaInsideAd(resultSet);
+        }
         return null;
     }
 }
