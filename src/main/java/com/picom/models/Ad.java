@@ -2,6 +2,7 @@ package com.picom.models;
 
 import com.picom.models.db.TableName;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -100,11 +101,17 @@ public class Ad extends AbstractEntity{
         this.areaList = areaList;
     }
 
-    public Float getTotalPriceOfAd(){
+    public Float getTotalPriceOfAdForOneDay(){
         Float stockValue = 0F;
         for (Area area : areaList){
             stockValue += area.getTotalPriceOfAllTimeIntervalSelected();
         }
+
         return stockValue;
+    }
+
+    public Float getTotalPriceForAllDay(){
+        DecimalFormat df = new DecimalFormat("0.00");
+        return getTotalPriceOfAdForOneDay() * numDaysOfDiffusion;
     }
 }

@@ -2,6 +2,7 @@ package com.picom.models;
 
 import com.picom.models.db.TableName;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class Area extends AbstractEntity{
@@ -70,6 +71,7 @@ public class Area extends AbstractEntity{
         for (TimeInterval timeInterval : timeIntervalList){
             stockValue += getPriceOfAdByTimeInterval(timeInterval);
         }
+
         return stockValue;
     }
 }

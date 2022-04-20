@@ -69,10 +69,25 @@ public class AdServiceTest {
     }
 
     @Test
-    @DisplayName("Test calculate total price of an ad")
-    public void getTotalPriceOfOneAd() {
+    @DisplayName("Test calculate total price of an ad for one day")
+    public void getTotalPriceOfOneAdForOneDay() {
         Ad ad = adService.findById(1L);
-        Assertions.assertEquals(370.44F,ad.getTotalPriceOfAd());
+        Assertions.assertEquals("370,44", String.format("%.2f",ad.getTotalPriceOfAdForOneDay()));
+    }
+
+    @Test
+    @DisplayName("Test calculate total price of ad for one area and one day")
+    public void getTotalPriceOfAdForOneArea(){
+        Ad ad = adService.findById(1L);
+        Assertions.assertEquals("192,78", String.format("%.2f", ad.getAreaList().get(0).getTotalPriceOfAllTimeIntervalSelected()));
+
+    }
+
+    @Test
+    @DisplayName("Test calculate total price of ad for all area selected and num days of diffusion")
+    public void getTotalPriceOfOneAd(){
+        Ad ad = adService.findById(1L);
+        Assertions.assertEquals("7408,80",String.format("%.2f", ad.getTotalPriceForAllDay()));
     }
 
 }
