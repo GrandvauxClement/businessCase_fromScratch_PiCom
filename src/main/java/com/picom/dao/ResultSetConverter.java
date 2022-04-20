@@ -1,13 +1,12 @@
 package com.picom.dao;
 
-import com.picom.models.City;
-import com.picom.models.Country;
-import com.picom.models.Role;
-import com.picom.models.User;
+import com.picom.models.*;
 import com.picom.models.db.TableName;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class ResultSetConverter {
 
@@ -57,6 +56,50 @@ public class ResultSetConverter {
         return new City(id, name, country);
     }
 
+    public static TimeInterval convertToTimeInterval(ResultSet resultSet) throws SQLException {
+        Long id = resultSet.getLong("id");
+        Double timeSlot = resultSet.getDouble("time_slot");
+        Float coefMulti = resultSet.getFloat("coef_multi");
+
+        return new TimeInterval(id, timeSlot, coefMulti);
+    }
+
+    public static Area convertToArea(ResultSet resultSet) throws SQLException {
+        Long id = resultSet.getLong("id");
+        String name = resultSet.getString("name");
+        Float price = resultSet.getFloat("price");
+        return new Area(id, name, price);
+    }
+
+    public static Stop convertToStop(ResultSet resultSet) throws SQLException {
+        Long id = resultSet.getLong("id");
+        String name = resultSet.getString("name");
+        Float latitude = resultSet.getFloat("latitude");
+        Float longitude = resultSet.getFloat("longitude");
+        String adressIp = resultSet.getString("adress_ip");
+        return new Stop(id, name, latitude, longitude, adressIp);
+    }
+
+    public static Ad convertToAd(ResultSet resultSet) throws SQLException{
+        Long id = resultSet.getLong("id");
+        String image = resultSet.getString("image");
+        String text = resultSet.getString("text");
+        Date createdAt = resultSet.getDate("created_at");
+        Date startDate = resultSet.getDate("start_date");
+        Integer numDaysOfDiffusion = resultSet.getInt("num_days_of_diffusion");
+
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.findById(resultSet.getLong("id_user"));
+
+        TimeIntervalDAO timeIntervalDAO = new TimeIntervalDAO();
+        List<TimeInterval> timeIntervalList = timeIntervalDAO.findTimeIntervalByIdAd(id);
+
+        AreaDAO areaDAO = new AreaDAO();
+        List<Area> areaList = areaDAO.findAreaByIdAd(id);
+
+        return new Ad(id, image, text, createdAt, startDate, numDaysOfDiffusion, user, timeIntervalList, areaList);
+    }
+
     public static Role convertToRole(ResultSet resultSet) throws SQLException {
         Long id = resultSet.getLong("id");
         String name = resultSet.getString("name");
@@ -68,12 +111,27 @@ public class ResultSetConverter {
 
         if (tableName.equals(TableName.USER)){
             return (T) convertToUser(resultSet);
+
         } else if (tableName.equals(TableName.COUNTRY)){
             return (T) convertToCountry(resultSet);
+
         } else if (tableName.equals(TableName.CITY)){
             return (T) convertToCity(resultSet);
+
         } else if (tableName.equals(TableName.ROLES)) {
             return (T) convertToRole(resultSet);
+
+        } else if (tableName.equals(TableName.STOP)){
+            return (T) convertToStop(resultSet);
+
+        } else if ((tableName.equals(TableName.TIME_INTERVAL))){
+            return (T) convertToTimeInterval(resultSet);
+
+        }else if (tableName.equals(TableName.AREA)){
+            return (T) convertToArea(resultSet);
+
+        }else if (tableName.equals(TableName.AD)){
+            return (T) convertToAd(resultSet);
         }
 
         return null;

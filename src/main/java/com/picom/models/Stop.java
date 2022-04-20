@@ -14,16 +14,25 @@ public class Stop extends AbstractEntity{
 
     private Area area;
 
-    private String adressIP;
+    private String address_ip;
 
-    public Stop(Long id, String name, Float latitude, Float longitude, Area area, String adressIP) {
+    public Stop(Long id, String name, Float latitude, Float longitude, Area area, String address_ip) {
         super(TableName.STOP);
         this.id = id;
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
         this.area = area;
-        this.adressIP = adressIP;
+        this.address_ip = address_ip;
+    }
+    // Create without Area
+    public Stop(Long id, String name, Float latitude, Float longitude, String address_ip) {
+        super(TableName.STOP);
+        this.id = id;
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.address_ip = address_ip;
     }
 
     public Long getId() {
@@ -66,11 +75,11 @@ public class Stop extends AbstractEntity{
         this.area = area;
     }
 
-    public String getAdressIP() {
-        return adressIP;
+    public String getAddressIP() {
+        return address_ip;
     }
 
-    public void setAdressIP(String adressIP) {
-        this.adressIP = adressIP;
+    public void setAddressIP(String adressIP) {
+        this.address_ip = adressIP;
     }
 }

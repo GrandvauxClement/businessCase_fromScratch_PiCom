@@ -82,9 +82,9 @@ CREATE TABLE ad_area
 (
     id INT PRIMARY KEY AUTO_INCREMENT,
     id_ad INT,
-    id_time_interval INT,
+    id_area INT,
     FOREIGN KEY (id_ad) REFERENCES ad(id),
-    FOREIGN KEY (id_time_interval) REFERENCES time_interval(id)
+    FOREIGN KEY (id_area) REFERENCES area(id)
 );
 
 CREATE TABLE stop
@@ -94,7 +94,7 @@ CREATE TABLE stop
     latitude FLOAT,
     longitude FLOAT,
     id_area INT,
-    adress_ip VARCHAR(15) UNIQUE,
+    address_ip VARCHAR(15) UNIQUE,
     FOREIGN KEY (id_area) REFERENCES area(id)
 );
 
@@ -133,9 +133,26 @@ INSERT INTO area(name, price) VALUES
   ('gare', 42.30),
   ('quartier chaud', 10.10);
 
-INSERT INTO stop(name, latitude, longitude, id_area, adress_ip) VALUES
+INSERT INTO stop(name, latitude, longitude, id_area, address_ip) VALUES
   ( 'centre-ville-1', 45.6584528, 43.98478557, 1, '197.25.65.25' ),
   ( 'centre-ville-2', 45.6584528, 43.98478557, 1, '197.25.65.45' ),
-  ( 'centre-ville-3', 45.6584528, 43.98478557, 1, '197.25.65.25' ),
-  ( 'centre-ville-4', 45.6584528, 43.98478557, 1, '197.25.65.25' ),
-  ( 'centre-ville-5', 45.6584528, 43.98478557, 1, '197.25.65.25' );
+  ( 'centre-ville-3', 45.6584528, 43.98478557, 1, '192.25.65.25' ),
+  ( 'centre-ville-4', 45.6584528, 43.98478557, 1, '197.23.65.25' ),
+  ( 'centre-ville-5', 45.6584528, 43.98478557, 1, '197.25.68.25' );
+
+INSERT INTO ad(image, text, created_at, start_date, num_days_of_diffusion, id_user) VALUES
+   ( 'image.png', 'Lorem ipsum super texte qui va servir de description', '2022-04-20', '2022-04-28', 20, 1),
+   ( 'image.jpeg', 'Lorem ipsum super texte qui va servir de description', '2022-04-20', '2022-04-30', 30, 1);
+
+INSERT INTO ad_area(id_ad, id_area) VALUES
+   (1, 1),
+   (1, 2),
+   (2, 1);
+
+INSERT INTO ad_time_interval(id_ad, id_time_interval) VALUES
+   (1, 2),
+   (1, 4),
+   (1, 7),
+   (2, 1),
+   (2, 5),
+   (2, 6);

@@ -23,8 +23,10 @@ public class Ad extends AbstractEntity{
 
     private List<TimeInterval> timeIntervalList;
 
+    private List<Area> areaList;
+
     public Ad(Long id, String image, String text, Date createdAt, Date startDate, Integer numDaysOfDiffusion, User user,
-              List<TimeInterval> timeIntervalList) {
+              List<TimeInterval> timeIntervalList, List<Area> areaList) {
         super(TableName.AD);
         this.id = id;
         this.image = image;
@@ -34,6 +36,7 @@ public class Ad extends AbstractEntity{
         this.numDaysOfDiffusion = numDaysOfDiffusion;
         this.user = user;
         this.timeIntervalList = timeIntervalList;
+        this.areaList = areaList;
     }
 
     public Long getId() {
@@ -98,5 +101,13 @@ public class Ad extends AbstractEntity{
 
     public void setTimeIntervalList(List<TimeInterval> timeIntervalList) {
         this.timeIntervalList = timeIntervalList;
+    }
+
+    public List<Area> getAreaList() {
+        return areaList;
+    }
+
+    public void setAreaList(List<Area> areaList) {
+        this.areaList = areaList;
     }
 }
