@@ -28,9 +28,9 @@ public class AdServiceTest {
         this.adService = new AdService();
         this.timeIntervalDAO = new TimeIntervalDAO();
         this.areaDAO = new AreaDAO();
-        this.userService.register("Grandvaux", "Clément", "clement.grandvaux@hotmail.com",
+       /* this.userService.register("Grandvaux", "Clément", "clement.grandvaux@hotmail.com",
                 "Admin123", "6 29 16 89 43","25487563256632", "Tesla",
-                "14 boulevard Gambetta", "39000", "Lons-le-saunier", "France", "+33");
+                "14 boulevard Gambetta", "39000", "Lons-le-saunier", "France", "+33");*/
 
 
     }
@@ -54,7 +54,7 @@ public class AdServiceTest {
                 15, 1L,  areaList);
 
 
-        Ad adWithId = adService.findById(2L);
+        Ad adWithId = adService.findById(ad.getId());
 
         List<Ad> adList = adService.findAll();
         Assertions.assertEquals("lala.png", ad.getImage());

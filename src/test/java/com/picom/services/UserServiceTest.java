@@ -2,10 +2,7 @@ package com.picom.services;
 
 import com.picom.exceptions.DbUniqueFieldThisValueExist;
 import com.picom.models.User;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -22,6 +19,15 @@ public class UserServiceTest {
         this.userService.register("Grandvaux", "Clément", "clement.grandvaux@hotmail.com",
                 "Admin123", "6 29 16 89 43","25487563256632", "Tesla",
                 "14 boulevard Gambetta", "39000", "Lons-le-saunier", "France", "+33");
+    }
+
+    @AfterEach
+    public void afterEach(){
+        User userToDelete = this.userService.findByField("email", "clement.grandvaux@hotmail.com");
+        if (userToDelete != null){
+            this.userService.deleteById(userToDelete.getId());
+        }
+
     }
 
     @Test
@@ -87,7 +93,7 @@ public class UserServiceTest {
     public void testDeleteUser(){
         List<User> userList = userService.findAll();
 
-        boolean response = userService.deleteById(userList.get(0).getId());
+        boolean response = userService.deleteById(userList.get(userList.size()-1).getId());
         Assertions.assertTrue(response);
     }
 

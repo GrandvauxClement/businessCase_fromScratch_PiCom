@@ -104,4 +104,13 @@ public class UserService {
             return null;
         }
     }
+
+    public User findByField(String field, String value){
+        try {
+            return this.userDAO.findByField(field, value);
+        }catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

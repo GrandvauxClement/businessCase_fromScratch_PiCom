@@ -100,6 +100,24 @@ public abstract class AbstractGenericDAO<T> implements GenricDAO<T> {
         return currentPojo;
     }
 
+    public T findByField(String field, String value) throws SQLException {
+        T currentPojo = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try{
+            ps = this.connection.prepareStatement("SELECT * FROM " + tableName +" WHERE " + field + "= ?");
+            ps.setString(1, value);
+
+            rs = ps.executeQuery();
+            if (rs.next()){
+                currentPojo = ResultSetConverter.getModelFromResult(tableName, rs);
+            }
+        } finally {
+            DBConnect.closeAll(ps, rs);
+        }
+        return currentPojo;
+    }
+
     public boolean checkIfFieldExist(String fieldName, String fieldValue) throws SQLException{
         PreparedStatement ps = null;
         ResultSet rs = null;

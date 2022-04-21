@@ -131,4 +131,28 @@ public class UserDAO extends AbstractGenericDAO<User> {
         return currentPojo;
     }
 
+    @Override
+    public User findByField(String field, String value) throws SQLException {
+        User currentPojo = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try{
+            ps = this.connection.prepareStatement(
+                    "SELECT * FROM user " +
+                            "INNER JOIN city ON city.id = user.id_city " +
+                            "INNER JOIN country ON country.id = city.id_country " +
+                            "INNER JOIN roles ON roles.id = user.id_role " +
+                            " WHERE " + field + "= ?");
+            ps.setString(1, value);
+
+            rs = ps.executeQuery();
+            if (rs.next()){
+                currentPojo = ResultSetConverter.getModelFromResult(tableName, rs);
+            }
+        } finally {
+            DBConnect.closeAll(ps, rs);
+        }
+        return currentPojo;
+    }
+
 }

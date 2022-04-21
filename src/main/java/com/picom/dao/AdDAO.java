@@ -68,8 +68,10 @@ public class AdDAO extends AbstractGenericDAO<Ad>{
                             psTimeInterval.setLong(1,idAdAreaCreate);
                             psTimeInterval.setLong(2, timeInterval.getId());
                             psTimeInterval.executeUpdate();
+                            DBConnect.closeAll(psTimeInterval, null);
                         }
                     }
+                    DBConnect.closeAll(psArea, rsArea);
                 }
 
                 UserDAO userDAO = new UserDAO();
