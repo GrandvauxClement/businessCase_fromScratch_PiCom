@@ -88,7 +88,7 @@ public class UserService {
             return null;
         }
     }
-
+    //TODO update this feature, not completely delete user, just set isActive at false
     public boolean deleteById(Long id){
         try {
             return this.userDAO.deleteById(id);

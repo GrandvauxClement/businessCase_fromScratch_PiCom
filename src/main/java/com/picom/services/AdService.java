@@ -44,5 +44,13 @@ public class AdService {
         }
     }
 
+    public List<Ad> findAllAdOfOneUser(Long idUser){
+        try {
+            return this.adDAO.findAllAdOfOneUser(idUser);
+        }catch (SQLException e){
+            return null;
+        }
+    }
+
 
 }

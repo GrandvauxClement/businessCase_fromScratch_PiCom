@@ -105,14 +105,16 @@ INSERT INTO country (name, phone_indicative) VALUES
 
 INSERT INTO city (name, id_country) VALUES
       ( 'Lyon', 1 ),
-      ('Paris', 2);
+      ('Paris', 1),
+      ('Clermont', 1);
 
 INSERT INTO roles (name) VALUES
    ( 'Admin' ),
    ('User');
 
 INSERT INTO user (last_name, first_name, email, password, phone_number, is_verified, num_siret, company_name, road_name, postal_code, id_city, id_role)
-VALUES ( 'admin', 'admin', 'admin@admin.com', 'Admin123', '66666666', true, '14242535652521', 'admin', 'rue admin', '69000', 1, 1);
+VALUES ( 'admin', 'admin', 'admin@admin.com', 'Admin123', '66666666', true, '14242535652521', 'admin', 'rue admin', '69000', 1, 1),
+       ('Jack', 'Seller','contact@hb.com', 'Admin123', '385685894', true, '94258436525325', 'hb', 'rue de la formation', '63000', 3, 1 );
 
 INSERT INTO time_interval(time_slot, nbre_ad, coef_multi) VALUES
    (6.7, NULL, 1.8),
@@ -142,13 +144,15 @@ INSERT INTO stop(name, latitude, longitude, id_area, address_ip) VALUES
   ( 'centre-ville-5', 45.6584528, 43.98478557, 1, '197.25.68.25' );
 
 INSERT INTO ad(image, text, created_at, start_date, num_days_of_diffusion, id_user) VALUES
-   ( 'image.png', 'Lorem ipsum super texte qui va servir de description', '2022-04-20', '2022-04-28', 20, 1),
-   ( 'image.jpeg', 'Lorem ipsum super texte qui va servir de description', '2022-04-20', '2022-04-30', 30, 1);
+   ( 'image.png', 'Lorem ipsum super texte de l annonce 1 qui va servir de description', '2022-04-20', '2022-04-28', 20, 1),
+   ( 'image.jpeg', 'Lorem ipsum super texte de l annonce 2 qui va servir de description', '2022-04-20', '2022-04-30', 30, 2),
+ ( 'image.png', 'Lorem ipsum super texte de l annonce 2 qui va servir de description', '2022-04-21', '2022-05-30', 60, 2);
 
 INSERT INTO ad_area(id_ad, id_area) VALUES
    (1, 1),
    (1, 2),
-   (2, 1);
+   (2, 1),
+   (3,1);
 
 INSERT INTO ad_time_interval(id_ad_area, id_time_interval) VALUES
    (1, 2),
@@ -156,4 +160,6 @@ INSERT INTO ad_time_interval(id_ad_area, id_time_interval) VALUES
    (2, 7),
    (2, 1),
    (3, 5),
-   (3, 6);
+   (3, 6),
+   (4, 3),
+   (4,6);

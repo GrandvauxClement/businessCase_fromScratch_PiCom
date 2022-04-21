@@ -68,7 +68,7 @@ public class UserServiceTest {
     @DisplayName("Test find all user")
     public void testFindAll() {
         List<User> userList = userService.findAll();
-        Assertions.assertEquals(2, userList.size());
+        Assertions.assertEquals(3, userList.size());
         Assertions.assertEquals("Grandvaux", userList.get(userList.size()-1).getLastName());
         Assertions.assertEquals("Lons-le-saunier", userList.get(userList.size()-1).getCity().getName());
     }
@@ -78,7 +78,7 @@ public class UserServiceTest {
     public void testFindById(){
         List<User> userList = userService.findAll();
         Long testid = userList.get(1).getId();
-        User user = userService.findById(userList.get(1).getId());
+        User user = userService.findById(userList.get(userList.size()-1).getId());
         Assertions.assertEquals("Grandvaux", user.getLastName());
     }
 

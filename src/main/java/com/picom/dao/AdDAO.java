@@ -10,6 +10,7 @@ import com.picom.utils.DateManagement;
 
 import java.sql.*;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 public class AdDAO extends AbstractGenericDAO<Ad>{
@@ -80,5 +81,23 @@ public class AdDAO extends AbstractGenericDAO<Ad>{
         }
 
         return ad;
+    }
+
+    public List<Ad> findAllAdOfOneUser(Long idUser) throws SQLException{
+        List<Ad> list = new LinkedList<>();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try{
+            ps = this.connection.prepareStatement("SELECT * FROM " + tableName + " WHERE id_user = ?");
+            ps.setLong(1, idUser);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add((Ad) ResultSetConverter.getModelFromResult(tableName, rs));
+            }
+        } finally {
+            DBConnect.closeAll(ps, rs);
+        }
+        return list;
     }
 }
